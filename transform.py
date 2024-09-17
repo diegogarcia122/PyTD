@@ -1,5 +1,10 @@
 import pandas as pd
 import seaborn as sea
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.stats import winsorize
+from sklearn.preprocessing import StandardScaler as scaler
+from sklearn.preprocessing import MinMaxScaler as MinMax_scaler
 
 df = pd.read_csv('dane/train.csv')
 #print(df.head())
@@ -7,7 +12,7 @@ df = pd.read_csv('dane/train.csv')
 #Impresión de las columnas y sus tipos de Datos
 #print(df.info())
 
-#Los Datos mas importantes serian SalePrice, YrSold, OverallQual, OverallCond, LotArea, Neighbborhood debido a que nuestro
+#Los Datos mas importantes serian SalePrice, YrSold, OverallQual, OverallCond, LotArea, Neighborhood debido a que nuestro
 #enfoque seria saber cuantas casas se han vendido, los años mas populares, el precio mas comun, Condicion de la casa,
 #Area del lote y Vecindario que se encuentra.
 
@@ -27,5 +32,35 @@ df['MasVnrArea'] = df['MasVnrArea'].fillna(df['MasVnrArea'].median())
 df['GarageYrBlt'] = df['GarageYrBlt'].fillna(df['GarageYrBlt'].median())
 print(df.head(8))
 
-sea.boxplot(data=df, x="SalePrice", y="YrSold")
+# Detección de outliers
+#sea.boxplot(data=df, x="YrSold", y="SalePrice")
+#plt.show()
+
+#sea.boxplot(data=df, x="OverallQual", y="LotArea")
+#plt.show()
+
+#sea.boxplot(data=df, x="Neighborhood", y="OverallCond")
+#plt.show()
+
+#Tratamiento de outliers
+
+#Normalización y estandarización
+df['SalePrice_Scaled'] = scaler.fit_transform(df[['SalePrice']])
+df['SalePrice_MinMax'] = MinMax_scaler.fit_transform(df[['SalePrice']])
+df['SalePrice_Log'] = np.log(df['SalePrice'])
+
+df['SalePrice_Scaled'] = scaler.fit_transform(df[['OverallQual']])
+df['SalePrice_MinMax'] = MinMax_scaler.fit_transform(df[['OverallQual']])
+df['SalePrice_Log'] = np.log(df['OverallQual'])
+
+df['SalePrice_Scaled'] = scaler.fit_transform(df[['LotArea']])
+df['SalePrice_MinMax'] = MinMax_scaler.fit_transform(df[['LotArea']])
+df['SalePrice_Log'] = np.log(df['LotArea'])
+
+df['SalePrice_Scaled'] = scaler.fit_transform(df[['OverallCond']])
+df['SalePrice_MinMax'] = MinMax_scaler.fit_transform(df[['OverallCond']])
+df['SalePrice_Log'] = np.log(df['OverallCond'])
+
+df['SalePrice_Scaled'] = scaler.fit_transform(df[['YrSold']])
+df['SalePrice_MinMax'] = MinMax_scaler.fit_transform(df[['YrSold']])
 
