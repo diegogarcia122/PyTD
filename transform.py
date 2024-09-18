@@ -80,6 +80,11 @@ df['OverallCond_Log'] = np.log1p(df['OverallCond'])
 df['YrSold_Scaled'] = scaler.fit_transform(df[['YrSold']])
 df['YrSold_MinMax'] = MinMax_scaler.fit_transform(df[['YrSold']])
 
+print(df[['SalePrice', 'SalePrice_Scaled', 'SalePrice_MinMax']].head())
+print("\n")
+print(df[['LotArea', 'LotArea_Scaled', 'LotArea_MinMax']].head())
+print("\n")
+
 sea.histplot(df['SalePrice_Log'], kde=True)
 plt.show()
 
